@@ -1,0 +1,35 @@
+### **Users**
+- Each user has a unique `user_id`.
+- A single user can create multiple workout plans at different times or for different purposes.
+- The **User** is modeled as a separate entity because it does not depend on other entities.
+
+---
+
+### **WorkoutPlan**
+- Each workout plan is uniquely created by one user (referenced by `user_id` as a foreign key).
+- The `plan_id` is assumed to be unique.
+- Each workout plan consists of multiple workout sessions, indexed by the day they are completed.
+- The **WorkoutPlan** is a separate entity because each user can have multiple workout plans.
+
+---
+
+### **WorkoutSession**
+- Each workout session has a unique `session_id` and is linked to only one workout plan (referenced by `plan_id` as a foreign key).
+- Each session includes multiple exercises, ordered by the sequence in which they are completed.
+- The **WorkoutSession** is a separate entity because each workout plan needs to contain multiple sessions.
+
+---
+
+### **Exercise**
+- This is a source database where users can choose their exercises.
+- Each exercise has a unique `exercise_id`.
+- Multiple session exercises can be composed of different exercises from this database (e.g., compound exercises).
+- The **Exercise** is a separate entity as it is independent of other entities.
+
+---
+
+### **SessionExercise**
+- Each workout session can include multiple exercises selected from the **Exercise** database.
+- The exercises within a session are stored as session exercises linked to specific workout sessions.
+
+---

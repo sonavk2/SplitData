@@ -1,0 +1,95 @@
+## Assumptions for each entity and relationship (why it's a separate entity, cardinality):
+#### Users
+- We are assuming that user_id is an auto-generated unique int assigned to each user
+- all other attributes in Users are defined by the user and are independent of each other
+- since everything depends on user_id, this table cannot be an attribute of another table because it would cause redundancies
+#### Plan
+- We are assuming that plan_id is an auto-generated unique int assigned to each newly created plan
+- the plan_name is only dependent on the plan_id, therefore it needs to be a separate entity
+- one user can own zero or many plans. They own zero when they haven’t made any plans, or if they opt to just use already created plans. This is represented by the foreign key to user_id in the Plan table
+#### Plan_Contains
+- This relationship is defined by the primary key pair, plan_id and session_id
+- This is defined by a 0 or many to 1 or many relationship because a plan has to have at least one session, but a session can exist without a plan. A plan can have many sessions, and a session can be reused in many plans.
+- The relationship has the attribute day_of_the_week which describes which day the session will be completed for that plan
+#### Session
+- like the Plan table, a user can make and share these with other users
+- This needs its own entity because oftentimes when making a workout plan, you split up your workouts into sessions. In each session you would vary the exercises so that no muscle would be overworked.
+- It can’t just be an attribute of a plan because sessions can be reused in other plans
+#### Session_Contains
+- This relationship is defined by the primary key pair, session_id and set_id
+- This is defined by a 0 or many to 1 or many relationship because a session has to have at least one set, but a set can exist without a session. A session can have many sets, and a set can be reused in many different sessions. 
+- The relationship between session and set holds the attribute “set_reps” because each set is repeated a certain number of times based on the session it is being used in. The reps are decided by the owner when adding a set to a session. 
+#### Set
+- like the Plan table, a user can make and share these with other users
+- This needs its own entity because you want to allow users to reuse pre-made sets to make their sessions. Putting this as an attribute of Session would create a lot of redundancies
+#### Set_Contains
+- This relationship is defined by the primary key pair, set_id and exercise_id
+- This is defined by a 0 or many to 1 or many relationship because a set has to have at least one exercise, but an exercise can exist without a set. A set can have many exercises, and an exercise can be reused in many different sets. 
+- The relationship between set and exercise holds the attribute “ex_reps” because each exercise is repeated a certain number of times based on the set it is being used in. For example if you wanted to create a high intensity set, you would assign each exercise a higher ex_reps for that set. The reps are decided by the owner when adding an exercise to a set. 
+#### Exercise
+- This is the source database that users can choose their exercises from
+- Each exercise_id is uniquely assigned to each exercise
+- Many different sets can be made up of many different exercises in this database (for example if you are doing a compound set).
+- Exercises can also be reused in different sets.This is a separate entity because it is not dependent on the others
+
+## Logical Design
+
+Users(User_ID: INT [PK], Name: VARCHAR(100), Age:INT, Gender: VARCHAR(10), Height: DECIMAL(4,1), Weight: DECIMAL(5,1), Fitness_level: VARCHAR(15), Goal: VARCHAR(255) )
+
+Plan(Plan_ID: INT [PK], Plan_name: VARCHAR(255), User_ID: INT [FK to Users.User_ID] )
+
+Plan_Contains((Plan_ID, Session_ID): Pair(INT, INT) [PK], Day_of_Week: VARCHAR(10), Plan_ID: INT [FK to Plan.Plan_ID], Session_ID: INT [FK to Session.Session_ID] )
+
+Session(Session_ID: INT [PK], Session_Name: VARCHAR(100), User_ID: INT [FK to Users.User_ID] )
+
+Session_Contains((Session_ID, Set_ID) : Pair(INT, INT) [PK], Set_Reps: INT, Set_Id: INT [FK to Sets.Set_ID], Session_ID: INT [FK to Session.Session_ID] )
+
+Sets(Set_ID: INT [PK], Set_Name: VARCHAR(100),  User_ID: INT [FK to Users.User_ID] )
+
+Set_Contains((Set_ID, Exercise_ID) : Pair(INT, INT) [PK], E_Reps: INT, Set_ID: INT [FK to Sets.Set_ID], Exercise_ID: INT [FK to Exercise.Exercise_ID] )
+
+Exercises(Exercise_ID: INT [PK], Exercise_Name: VARCHAR(255), Difficulty: INT, Muscle_Group: VARCHAR(100))
+
+## Normalization (3NF)
+
+#### Nontrivial Functional Dependencies — see Campuswire chat about assumptions:
+- User_ID —> Goal, Name, Age, Gender, Height, Weight, Fitness_level
+- Plan_ID —> Plan_name
+- Session_ID —> Session_Name
+- Set_ID —> Set_Name
+- Exercise_ID —> Exercise_Name, Difficulty, Muscle_Group
+- Plan_id, Set_ID —> Day_of_Week
+- Set_ID, Session_ID —> Set_Reps
+- Set_ID, Exercise_ID —> E_Reps
+
+#### Minimal basis — singleton RHS, already no redundancy in LHS, no rules can be removed:
+- User_ID —> Goal
+- User_ID —> Name
+- User_ID —> Age
+- User_ID —> Gender
+- User_ID —> Height
+- User_ID —> Weight
+- User_ID —> Fitness_level
+- Plan_ID —> Plan_name
+- Session_ID —> Session_Name
+- Set_ID —> Set_Name
+- Exercise_ID —> Exercise_Name
+- Exercise_ID —> Difficulty
+- Exercise_ID —> Muscle_Group
+- Plan_id, Set_ID —> Day_of_Week
+- Set_ID, Session_ID —> Set_Reps
+- Set_ID, Exercise_ID —> E_Reps
+
+#### Primary Key:
+(Plan_ID, Session_ID, Set_ID, Exercise_ID, User_ID)
+
+#### 3NF Relations:
+- A (User_ID, Goal, Name, Age, Gender, Height, Weight, Fitness_level)
+- B (Plan_ID, Plan_name)
+- C (Session_ID, Session_Name)
+- D (Set_ID, Set_Name)
+- E (Exercise_ID, Exercise_Name, Difficulty, Muscle_Group)
+- F  (Plan_ID, Set_ID, Day_of_Week)
+- G (Set_ID, Session_ID, Set_Reps)
+- H (Set_ID, Exercise_ID, E_Reps)
+- PK (Plan_ID, Session_ID, Set_ID, Exercise_ID, User_ID)
