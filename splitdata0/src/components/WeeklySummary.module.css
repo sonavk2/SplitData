@@ -1,0 +1,32 @@
+/* WeeklySummary.module.css */
+.summaryContainer {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  .dayBoxes {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .dayBox {
+    background-color: #f9f9f9;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    width: 120px;
+    text-align: center;
+  }
+  
+  ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  li {
+    font-size: 0.9rem;
+    margin: 5px 0;
+  }
+  

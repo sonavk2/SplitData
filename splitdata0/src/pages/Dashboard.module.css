@@ -1,0 +1,85 @@
+.dashboardContainer {
+    background: url('https://images.unsplash.com/photo-1678203699263-917199c725b2?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NHx8aGVybyUyMGltYWdlfGVufDB8fDB8fHww') no-repeat center center fixed;
+    background-size: cover;
+    color: #fff;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    padding: 20px;
+    margin: 0;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.header h1 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.header p {
+    font-size: 1.2rem;
+}
+
+.cardRow {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 20px;
+    width: 100%;
+    max-width: 1200px;
+}
+
+.card {
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 20px;
+    padding: 30px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    flex: 1;
+    max-width: 300px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+.card:hover {
+    transform: scale(1.05);
+}
+
+.infoCard {
+    background: rgba(63, 94, 251, 0.8);
+}
+
+.planCard {
+    background: rgba(252, 92, 101, 0.8);
+}
+
+.planCard:nth-child(3) {
+    background: rgba(253, 211, 78, 0.8);
+}
+
+button {
+    background: #4caf50;
+    border: none;
+    border-radius: 5px;
+    color: white;
+    padding: 10px 15px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background: #45a049;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+p {
+    font-size: 1rem;
+}

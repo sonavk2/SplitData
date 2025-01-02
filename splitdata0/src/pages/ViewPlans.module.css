@@ -1,0 +1,43 @@
+.container {
+    padding: 20px;
+}
+
+.error {
+    color: red;
+}
+
+.plan {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+}
+
+.days {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.day {
+    flex: 1 1 calc(33.333% - 10px);
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.day h4 {
+    margin-bottom: 5px;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+}
+
+li {
+    background: #f9f9f9;
+    padding: 5px;
+    margin-bottom: 5px;
+    border-radius: 3px;
+}
